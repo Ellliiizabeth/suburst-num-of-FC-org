@@ -13,7 +13,7 @@
             font-family: Arial, sans-serif;
         }
         #chart {
-            width: 100%;
+            width: 90%;
             height: 90vh; /* 自适应屏幕高度 */
         }
         .info {
@@ -255,6 +255,11 @@
 
         const chart = echarts.init(document.getElementById('chart'));
 
+        // 根据屏幕宽度动态调整字体大小
+        function getFontSize(base) {
+            return window.innerWidth < 600 ? base * 0.8 : base;
+        }
+
         const option = {
             title: {
                 text: '全球事实核查机构分布',
@@ -278,7 +283,7 @@
                     {
                         r0: '15%', r: '30%',
                         label: {
-                            rotate: 'tangential', fontSize: 14, fontWeight: 'bold',
+                            rotate: 'tangential', getFontSize(14), fontWeight: 'bold',
                             formatter: function (params) {
                                 const total = sunburstData.reduce((sum, c) => sum + c.value, 0);
                                 const percent = ((params.value / total) * 100).toFixed(1);
@@ -288,25 +293,25 @@
                     },
                     {
                         r0: '30%', r: '50%',
-                        label: { rotate: 'tangential', fontSize: 11, formatter: '{b}\n({c})' }
+                        label: { rotate: 'tangential', getFontSize(11), formatter: '{b}\n({c})' }
                     },
                     {
                         r0: '50%', r: '75%',
                         label: {
-                            position: 'outside', fontSize: 9,
+                            position: 'outside', getFontSize(9),
                             formatter: function(params) { return params.value >= 1 ? `${params.name}(${params.value}）` : ''; }
                         },
                         emphasis: {
                         label: {
                             position: 'inside',
-                            fontSize: 10,
+                            getFontSize(10),
                             formatter: function(params) { return params.value >= 1 ? `${params.name}(${params.value}）` : ''; }
                         }
         }
                     },
                     {
                         r0: '75%', r: '88%',
-                        label: { position: 'outside', fontSize: 8, formatter: function(params) { return params.value >= 1 ? `${params.name}(${params.value}）` : ''; } },
+                        label: { position: 'outside', getFontSize(8), formatter: function(params) { return params.value >= 1 ? `${params.name}(${params.value}）` : ''; } },
                         emphasis:{
                         itemStyle:{
                             opacity: 0.7
@@ -331,5 +336,6 @@
     </script>
 </body>
 </html>
+
 
 
