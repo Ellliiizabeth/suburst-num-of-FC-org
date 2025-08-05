@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>全球事实核查机构分布</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.2/echarts.min.js"></script>
+    <style>
+        body {
+            background-color: #fff;
+            margin: 10px;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+        }
+        #chart {
+            width: 100%;
+            height: 900px;
+        }
+        .info {
+            margin-bottom: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+        /* ⭐ 新增：数据来源样式 */
+        .source {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 12px;
+            color: #555;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 6px 10px;
+            border-radius: 4px;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+            max-width: 280px;
+            line-height: 1.4;
+        }
+        .source a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .source a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="info">点击图表各层级可进行交互展开/收缩</div>
+    <!-- ⭐ 新增：数据来源文字 -->
+    <div class="source">
+        数据来源：<br>
+        1. <a href="https://ifcncodeofprinciples.poynter.org/signatories" target="_blank">IFCN signatories</a><br>
+        2. <a href="https://members.efcsn.com/signatories" target="_blank">EFCSN signatories</a><br>
+        截止日期：2025年8月5日
+    </div>
+    <div id="chart"></div>
+    <script>
+
+        // 黄色系
+        const yellow = ['#FFD700', '#FFEC8B', '#FFF68F'];
+        // 灰色系
+        const gray = ['#A9A9A9', '#BEBEBE', '#D3D3D3', '#E8E8E8'];
+        const blue = ['#99ccff', '#99ccff', '#99ccff']
+
+        const sunburstData = [
+            {
+                name: "其他",
+                itemStyle: { color: yellow[0] },
+                children: [
+                    {
+                        name: "北美",
+                        itemStyle: { color: yellow[1] },
+                        children: [
+                            { name: "美国", value: 13, itemStyle: { color: yellow[2] } },
+                            { name: "加拿大", value: 3, itemStyle: { color: yellow[2] } }
+                        ]
+                    },
+                    {
+                        name: "欧洲",
+                        itemStyle: { color: yellow[1] },
+                        children: [
+                            { name: "法国", value: 6, itemStyle: { color: yellow[2] } },
+                            { name: "葡萄牙", value: 5, itemStyle: { color: yellow[2] } },
+                            { name: "西班牙", value: 5, itemStyle: { color: yellow[2] } },
+                            { name: "德国", value: 4, itemStyle: { color: yellow[2] } },
+                            { name: "意大利", value: 4, itemStyle: { color: yellow[2] } },
+                            { name: "英国", value: 3, itemStyle: { color: yellow[2] } },
+                            { name: "比利时", value: 3, itemStyle: { color: yellow[2] } },
+                            { name: "希腊", value: 3, itemStyle: { color: yellow[2] } },
+                            { name: "波兰", value: 3, itemStyle: { color: yellow[2] } },
+                            { name: "奥地利", value: 2, itemStyle: { color: yellow[2] } },
+                            { name: "捷克共和国", value: 2, itemStyle: { color: yellow[2] } },
+                            { name: "立陶宛", value: 2, itemStyle: { color: yellow[2] } },
+                            { name: "罗马尼亚", value: 2, itemStyle: { color: yellow[2] } },
+                            { name: "斯洛伐克", value: 1, itemStyle: { color: yellow[2] } },
+                            { name: "爱尔兰", value: 1, itemStyle: { color: yellow[2] } },
+                            { name: "挪威", value: 1, itemStyle: { color: yellow[2] } },
+                            { name: "瑞士", value: 1, itemStyle: { color: yellow[2] } },
+                            { name: "丹麦", value: 1, itemStyle: { color: yellow[2] } },
+                            { name: "斯洛维尼亚", value: 1, itemStyle: { color: yellow[2] } },
+                            { name: "克罗地亚", value: 1, itemStyle: { color: yellow[2] } },
+                            { name: "爱沙尼亚", value: 1, itemStyle: { color: yellow[2] } },
+                            { name: "塞浦路斯", value: 1, itemStyle: { color: yellow[2] } },
+                            { name: "匈牙利", value: 1, itemStyle: { color: yellow[2] } },
+                            { name: "拉脱维亚", value: 1, itemStyle: { color: yellow[2] } }
+                        ]
+                    },
+                    {
+                        name: "亚洲",
+                        itemStyle: { color: yellow[1] },
+                        children: [
+                            { name: "日本", value: 2, itemStyle: { color: yellow[2] } },
+                            { name: "韩国", value: 1, itemStyle: { color: yellow[2] } },
+                            { name: "以色列", value: 1, itemStyle: { color: yellow[2] } }
+                        ]
+                    },
+                    {
+                        name: " ",
+                        itemStyle: { color: yellow[1] },
+                        children: [
+                            { name: "澳大利亚", value: 2, itemStyle: { color: yellow[2] } }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "全球南方国家",
+                itemStyle: { color: gray[0] },
+                children: [
+                    {
+                        name: "北美",
+                        itemStyle: { color: gray[1] },
+                        children: [
+                            { name: "墨西哥", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "哥斯达黎加", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "瓜地马拉", value: 1, itemStyle: { color: gray[2] } }
+                        ]
+                    },
+                    {
+                        name: "南美",
+                        itemStyle: { color: gray[1] },
+                        children: [
+                            { name: "委内瑞拉", value: 3, itemStyle: { color: gray[2] } },
+                            { name: "巴西", value: 3, itemStyle: { color: gray[2] } },
+                            { name: "哥伦比亚", value: 2, itemStyle: { color: gray[2] } },
+                            { name: "智利", value: 2, itemStyle: { color: gray[2] } },
+                            { name: "秘鲁", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "厄瓜多尔", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "阿根廷", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "玻利维亚", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "乌拉圭", value: 1, itemStyle: { color: gray[2] }}
+                        ]
+                    },
+                    {
+                        name: "欧洲",
+                        itemStyle: { color: gray[1] },
+                        children: [
+                            { name: "土耳其", value: 4, itemStyle: { color: gray[2] } },
+                            { name: "乌克兰", value: 3, itemStyle: { color: gray[2] } },
+                            { name: "塞尔维亚", value: 3, itemStyle: { color: gray[2] } },
+                            { name: "亚美尼亚", value: 2, itemStyle: { color: gray[2] } },
+                            { name: "格鲁吉亚", value: 2, itemStyle: { color: gray[2] } },
+                            { name: "科索沃", value: 2, itemStyle: { color: gray[2] } },
+                            { name: "波黑", value: 2, itemStyle: { color: gray[2] } },
+                            { name: "阿尔巴尼亚", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "北马其顿", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "保加利亚", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "阿塞拜疆", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "黑山共和国", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "俄罗斯", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "白俄罗斯", value: 1, itemStyle: { color: gray[2] } }
+                        ]
+                    },
+                    {
+                        name: "亚洲",
+                        itemStyle: { color: gray[1] },
+                        children: [
+                            { name: "印度", value: 19, itemStyle: { color: gray[2] } },
+                            { name: "印度尼西亚", value: 5, itemStyle: { color: gray[2] } },
+                            { name: "菲律宾", value: 5, itemStyle: { color: gray[2] } },
+                            {
+                                name: "中国",
+                                value: 9,
+                                itemStyle: { color: blue[1] },
+                                children: [
+                                    {
+                                        name: "中国大陆",
+                                        value: 4,
+                                        itemStyle: { color: blue[2] },
+                                        children: [
+                                            { name: "澎湃明查", value: 1, itemStyle: { color: blue[2] } },
+                                            { name: "腾讯较真", value: 1, itemStyle: { color: blue[2] } },
+                                            { name: "核真录", value: 1, itemStyle: { color: blue[2] } },
+                                            { name: "CGTN真相猎手", value: 1, itemStyle: { color: '#FF3232' } }
+                                        ]
+                                    },
+                                    {
+                                        name: "中国香港",
+                                        value: 3,
+                                        itemStyle: { color: blue[2] }
+                                    },
+                                    {
+                                        name: "中国台湾",
+                                        value: 2,
+                                        itemStyle: { color: blue[2] }
+                                    }
+                                ]
+                            },
+                            { name: "尼泊尔", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "蒙古", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "孟加拉国", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "巴勒斯坦", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "哈萨克斯坦", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "伊拉克", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "黎巴嫩", value: 1, itemStyle: { color: gray[2] } },
+                        ]
+                    },
+                    {
+                        name: "非洲",
+                        itemStyle: { color: gray[1] },
+                        children: [
+                            { name: "尼日利亚", value: 7, itemStyle: { color: gray[2] } },
+                            { name: "刚果共和国", value: 3, itemStyle: { color: gray[2] } },
+                            { name: "肯尼亚", value: 2, itemStyle: { color: gray[2] } },
+                            { name: "利比里亚", value: 2, itemStyle: { color: gray[2] } },
+                            { name: "埃及", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "苏丹", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "喀麦隆", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "津巴布韦", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "南非", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "多哥", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "埃塞俄比亚", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "塞内加尔", value: 1, itemStyle: { color: gray[2] } },
+                            { name: "纳米比亚", value: 1, itemStyle: { color: gray[2] } }
+                        ]
+                    }
+                ]
+            }
+        ]
+
+
+        // 自动计算父节点 value
+        function calculateValues(node) {
+            if (node.children) {
+                node.value = node.children.reduce((sum, child) => sum + calculateValues(child), 0);
+            }
+            return node.value || 0;
+        }
+        sunburstData.forEach(node => calculateValues(node));
+
+        const chart = echarts.init(document.getElementById('chart'));
+
+        const option = {
+            title: {
+                text: '全球事实核查机构分布',
+                left: 'center',
+                bottom: 20,
+                textStyle: { fontSize: 24, fontWeight: 'bold', color: '#333' }
+            },
+            series: [{
+                type: 'sunburst',
+                data: sunburstData,
+                radius: [0, '90%'],
+                sort: null,
+                emphasis: { focus: 'ancestor' },
+                itemStyle: { borderWidth: 1, borderColor: '#fff' },
+                levels: [
+                    { 
+                        r0: '0%', 
+                        r: '10%', 
+                        itemStyle: { color: '#FFD700' }
+                    },
+                    {
+                        r0: '15%', r: '30%',
+                        label: {
+                            rotate: 'tangential', fontSize: 14, fontWeight: 'bold',
+                            formatter: function (params) {
+                                const total = sunburstData.reduce((sum, c) => sum + c.value, 0);
+                                const percent = ((params.value / total) * 100).toFixed(1);
+                                return `${params.name}\n${params.value}家 (${percent}%)`;
+                            }
+                        }
+                    },
+                    {
+                        r0: '30%', r: '50%',
+                        label: { rotate: 'tangential', fontSize: 11, formatter: '{b}\n({c})' }
+                    },
+                    {
+                        r0: '50%', r: '75%',
+                        label: {
+                            position: 'outside', fontSize: 9,
+                            formatter: function(params) { return params.value >= 1 ? `${params.name}(${params.value}）` : ''; }
+                        },
+                        emphasis: {
+                        label: {
+                            position: 'inside',
+                            fontSize: 10,
+                            formatter: function(params) { return params.value >= 1 ? `${params.name}(${params.value}）` : ''; }
+                        }
+        }
+                    },
+                    {
+                        r0: '75%', r: '88%',
+                        label: { position: 'outside', fontSize: 8, formatter: function(params) { return params.value >= 1 ? `${params.name}(${params.value}）` : ''; } },
+                        emphasis:{
+                        itemStyle:{
+                            opacity: 0.7
+                        }
+                        }
+                    },
+                    {
+                        r0: '88%', r: '95%',
+                        label: { position: 'outside', fontSize: 8, formatter: '{b}' },
+                        emphasis:{
+                        itemStyle:{
+                            opacity: 0.7
+                        }
+                        }
+                    }
+                ]
+            }]
+        };
+
+        chart.setOption(option);
+        window.addEventListener('resize', () => chart.resize());
+    </script>
+</body>
+</html>
