@@ -1,38 +1,38 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>全球事实核查机构分布</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.2/echarts.min.js"></script>
     <style>
         body {
             background-color: #fff;
-            margin: 0;
-            padding: 0;
+            margin: 10px;
+            padding: 10px;
             font-family: Arial, sans-serif;
         }
         #chart {
-            width: 90%;
-            height: 90vh; /* 自适应屏幕高度 */
+            width: 100%;
+            height: 900px;
         }
         .info {
-            margin: 10px;
+            margin-bottom: 10px;
             color: #666;
             font-size: 14px;
-            text-align: center;
         }
+
         .source {
             position: absolute;
             top: 10px;
-            right: 10px;
+            right: 20px;
             font-size: 12px;
             color: #555;
-            background-color: rgba(255, 255, 255, 0.85);
-            padding: 6px 8px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 6px 10px;
             border-radius: 4px;
             box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-            max-width: 90%;
+            max-width: 280px;
             line-height: 1.4;
         }
         .source a {
@@ -42,22 +42,17 @@
         .source a:hover {
             text-decoration: underline;
         }
-        /* 手机端字体更小 */
-        @media (max-width: 600px) {
-            .info { font-size: 12px; }
-            .source { font-size: 11px; padding: 5px 6px; }
-        }
     </style>
 </head>
 <body>
     <div class="info">点击图表各层级可进行交互展开/收缩</div>
+    <!-- ⭐ 新增：数据来源文字 -->
     <div class="source">
-        数据来源：IFCN 名单 和 EFCSN 名单<br>
+        数据来源：<br>
         1. <a href="https://ifcncodeofprinciples.poynter.org/signatories" target="_blank">IFCN signatories</a><br>
         2. <a href="https://members.efcsn.com/signatories" target="_blank">EFCSN signatories</a><br>
         截止日期：2025年8月5日
     </div>
-    
     <div id="chart"></div>
     <script>
 
@@ -255,11 +250,6 @@
 
         const chart = echarts.init(document.getElementById('chart'));
 
-        // 根据屏幕宽度动态调整字体大小
-        function getFontSize(base) {
-            return window.innerWidth < 600 ? base * 0.8 : base;
-        }
-
         const option = {
             title: {
                 text: '全球事实核查机构分布',
@@ -283,7 +273,7 @@
                     {
                         r0: '15%', r: '30%',
                         label: {
-                            rotate: 'tangential', fontSize: getFontSize(14), fontWeight: 'bold',
+                            rotate: 'tangential', fontSize: 14, fontWeight: 'bold',
                             formatter: function (params) {
                                 const total = sunburstData.reduce((sum, c) => sum + c.value, 0);
                                 const percent = ((params.value / total) * 100).toFixed(1);
@@ -293,25 +283,25 @@
                     },
                     {
                         r0: '30%', r: '50%',
-                        label: { rotate: 'tangential', fontSize: getFontSize(11), formatter: '{b}\n({c})' }
+                        label: { rotate: 'tangential', fontSize: 11, formatter: '{b}\n({c})' }
                     },
                     {
                         r0: '50%', r: '75%',
                         label: {
-                            position: 'outside', fontSize: getFontSize(9),
+                            position: 'outside', fontSize: 9,
                             formatter: function(params) { return params.value >= 1 ? `${params.name}(${params.value}）` : ''; }
                         },
                         emphasis: {
                         label: {
                             position: 'inside',
-                            fontSize: getFontSize(10),
+                            fontSize: 10,
                             formatter: function(params) { return params.value >= 1 ? `${params.name}(${params.value}）` : ''; }
                         }
         }
                     },
                     {
                         r0: '75%', r: '88%',
-                        label: { position: 'outside', fontSize: getFontSize(8), formatter: function(params) { return params.value >= 1 ? `${params.name}(${params.value}）` : ''; } },
+                        label: { position: 'outside', fontSize: 8, formatter: function(params) { return params.value >= 1 ? `${params.name}(${params.value}）` : ''; } },
                         emphasis:{
                         itemStyle:{
                             opacity: 0.7
