@@ -283,7 +283,7 @@
                     {
                         r0: '15%', r: '30%',
                         label: {
-                            rotate: 'tangential', getFontSize(14), fontWeight: 'bold',
+                            rotate: 'tangential', fontSize: getFontSize(14), fontWeight: 'bold',
                             formatter: function (params) {
                                 const total = sunburstData.reduce((sum, c) => sum + c.value, 0);
                                 const percent = ((params.value / total) * 100).toFixed(1);
@@ -293,25 +293,25 @@
                     },
                     {
                         r0: '30%', r: '50%',
-                        label: { rotate: 'tangential', getFontSize(11), formatter: '{b}\n({c})' }
+                        label: { rotate: 'tangential', fontSize: getFontSize(11), formatter: '{b}\n({c})' }
                     },
                     {
                         r0: '50%', r: '75%',
                         label: {
-                            position: 'outside', getFontSize(9),
+                            position: 'outside', fontSize: getFontSize(9),
                             formatter: function(params) { return params.value >= 1 ? `${params.name}(${params.value}）` : ''; }
                         },
                         emphasis: {
                         label: {
                             position: 'inside',
-                            getFontSize(10),
+                            fontSize: getFontSize(10),
                             formatter: function(params) { return params.value >= 1 ? `${params.name}(${params.value}）` : ''; }
                         }
         }
                     },
                     {
                         r0: '75%', r: '88%',
-                        label: { position: 'outside', getFontSize(8), formatter: function(params) { return params.value >= 1 ? `${params.name}(${params.value}）` : ''; } },
+                        label: { position: 'outside', fontSize: getFontSize(8), formatter: function(params) { return params.value >= 1 ? `${params.name}(${params.value}）` : ''; } },
                         emphasis:{
                         itemStyle:{
                             opacity: 0.7
@@ -336,6 +336,7 @@
     </script>
 </body>
 </html>
+
 
 
 
